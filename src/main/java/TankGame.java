@@ -6,7 +6,6 @@ public class TankGame {
     public static void main(String [] args)
     {
         int[] gameBoardSize = {10,10};
-        int[] gameDestinationPoint = {7,7};
         int[] vehicleInitialLocation = {0,0};
         String[] availableVehicles = {"Car", "Tank"};
         String[] availableCommands = {"UP", "DOWN", "LEFT", "RIGHT"};
@@ -23,7 +22,7 @@ public class TankGame {
         System.out.println("");
         System.out.println("");
 
-        Game game = new Game(gameBoardSize, gameDestinationPoint);
+        Game game = new Game(gameBoardSize);
         Scanner dataEntry = new Scanner(System.in);
         System.out.println("Który pojazd wybierasz?");
         System.out.println("1. Car - Wybierz A");
@@ -34,11 +33,11 @@ public class TankGame {
 
             switch(carChoice) {
                 case "A":
-                    Car carInGame = new Car(vehicleInitialLocation,1000, 10 );
+                    Car carInGame = new Car(vehicleInitialLocation,100);
                     game.setGameVehicle(carInGame);
                     break loop;
                 case "B":
-                    Tank tankInGame = new Tank(vehicleInitialLocation, 1000, 20);
+                    Tank tankInGame = new Tank(vehicleInitialLocation, 100);
                     game.setGameVehicle(tankInGame);
                     break loop;
                 default:

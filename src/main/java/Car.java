@@ -1,8 +1,7 @@
 public class Car extends Vehicle {
 
-    public Car(int[] initialLocation, int initialFuel, int initialFuelInterval) {
-        super(initialLocation, initialFuel, initialFuelInterval);
+    public Car(int[] initialLocation, int initialFuel) {
+        super(initialLocation, initialFuel, 5, 1, 50);
     }
-
 
 }

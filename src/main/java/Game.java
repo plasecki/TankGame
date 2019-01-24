@@ -1,18 +1,14 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
-    private HashMap<String, Integer> boardSize = new HashMap();
-    private int[] destinationPoint = {5,5};
+    private Map<String, Integer> boardSize = new HashMap();
+    private int[] destinationPoint = new int[2];
     private Vehicle gameVehicle;
-    private String[] availableCommands = {"UP", "DOWN", "LEFT", "RIGHT"};
+    private final String[] availableCommands = {"UP", "DOWN", "LEFT", "RIGHT"};
 
-    public Game(int[] boardCoordinates, int[] initialDestination) {
-        this.boardSize.put("x", boardCoordinates[0]);
-        this.boardSize.put("y", boardCoordinates[1]);
-        this.destinationPoint = initialDestination;
+    public Game(int[] boardCoordinates) {
+        boardSize.put("x", boardCoordinates[0]);
+        boardSize.put("y", boardCoordinates[1]);
     }
     public void printDestinationPoint() {
         System.out.println("Twój punkt docelowy: " + Arrays.toString(destinationPoint));
@@ -28,26 +24,22 @@ public class Game {
         System.out.println("y = " + this.getBoardSize("y"));
     }
 
-    public void setGameVehicle(Vehicle chosenVehicle) {
-        this.gameVehicle = chosenVehicle;
-    }
-
     private void setNewDestinationPoint() {
         Random rand = new Random();
-        this.destinationPoint[0] = rand.nextInt(11);
-        this.destinationPoint[1] = rand.nextInt(11);
+        destinationPoint[0] = rand.nextInt(11);
+        destinationPoint[1] = rand.nextInt(11);
 
         System.out.println("your new destination point: ");
-        System.out.println("x= " + this.destinationPoint[0]);
-        System.out.println("y= " + this.destinationPoint[1]);
+        System.out.println("x= " + destinationPoint[0]);
+        System.out.println("y= " + destinationPoint[1]);
     }
 
     private boolean checkDestinationReached() {
-        HashMap vehicleLocation = this.gameVehicle.getLocation();
+        HashMap vehicleLocation = gameVehicle.getLocation();
         boolean destinationReached = false;
 
-        if (vehicleLocation.get("x").equals(this.destinationPoint[0])) {
-            if (vehicleLocation.get("y").equals(this.destinationPoint[1])) {
+        if (vehicleLocation.get("x").equals(destinationPoint[0])) {
+            if (vehicleLocation.get("y").equals(destinationPoint[1])) {
                 destinationReached = true;
             }
         }
@@ -55,8 +47,12 @@ public class Game {
         return destinationReached;
     }
 
+    private boolean fuelOffGameOver() {
+        return (gameVehicle.getVehicleFuel() <= 0);
+    }
+
     private boolean checkBoardBoarderReached(String moveCommand) {
-        HashMap<String, Integer> vehicleLocation = this.gameVehicle.getLocation();
+        HashMap<String, Integer> vehicleLocation = gameVehicle.getLocation();
         boolean destinationReached = false;
         boolean incorrectCommand = false;
         int xLocation = vehicleLocation.get("x");
@@ -81,9 +77,6 @@ public class Game {
                 return incorrectCommand;
         }
 
-        System.out.println("x=" + xLocation);
-        System.out.println("y=" + yLocation);
-
         if (xLocation > this.getBoardSize("x")) {
             destinationReached = true;
         }
@@ -103,25 +96,36 @@ public class Game {
         return destinationReached;
     }
 
+    public void setGameVehicle(Vehicle chosenVehicle) {
+        gameVehicle = chosenVehicle;
+    }
+
     public void runGame() {
         String userDecision = "YES";
         while(userDecision.equals("YES")) {
             System.out.println("Game was run");
-            this.setNewDestinationPoint();
-            this.printDestinationPoint();
+            setNewDestinationPoint();
+            printDestinationPoint();
 
-            while (this.checkDestinationReached() == false) {
-                this.gameVehicle.printCurrentLocation();
+            while (checkDestinationReached() == false) {
+                gameVehicle.printCurrentLocation();
                 System.out.println("Wprowadz komende " + Arrays.toString(availableCommands));
                 Scanner dataEntry = new Scanner(System.in);
                 String moveCommand = dataEntry.nextLine();
-                if (this.checkBoardBoarderReached(moveCommand) == false) {
+                if (checkBoardBoarderReached(moveCommand) == false) {
                     gameVehicle.moveVehicle(moveCommand);
+                    gameVehicle.printVehicleFuel();
                 } else {
                     System.out.println("You cannot move vehicle out of the game board");
-                    this.printBoardSize();
+                    printBoardSize();
                     System.out.println("or command you entered is not valid");
                 }
+
+                if (fuelOffGameOver()) {
+                    System.out.println("Fuel off game over");
+                    System.exit(0);
+                }
+
 
             }
             System.out.println("Your destination point was reached!!");
@@ -130,7 +134,10 @@ public class Game {
             System.out.println("Choose: YES or other answer to quit");
             Scanner decisionEntry = new Scanner(System.in);
             userDecision = decisionEntry.nextLine();
+            gameVehicle.increaseVehicleFuel();
         }
+
+        System.exit(0);
 
     }
 
