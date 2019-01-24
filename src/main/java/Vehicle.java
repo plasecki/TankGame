@@ -16,7 +16,7 @@ public class Vehicle {
         this.fuelDecreaseInterval = initialFuelInterval;
     };
 
-    public HashMap getLocation() {
+    public HashMap<String, Integer> getLocation() {
         return this.location;
     }
 
