@@ -17,7 +17,7 @@ public class Vehicle {
         fuelAward = award;
         fuelDecreaseInterval = initialFuelInterval;
         vehicleSize = size;
-    };
+    }
 
     private int getCoordinateX() {
         return location.get("x");
@@ -30,17 +30,17 @@ public class Vehicle {
     private void increaseCoordinateX(int increaseInterval) {
         int x = getCoordinateX();
         location.put("x", x + increaseInterval);
-    };
+    }
 
     private void increaseCoordinateY(int increaseInterval) {
         int y = getCoordinateY();
         location.put("y", y + increaseInterval);
-    };
+    }
 
     private void decreaseCoordinateX(int decreaseInterval) {
         int x = getCoordinateX();
         location.put("x", x - decreaseInterval);
-    };
+    }
 
     private void decreaseCoordinateY(int decreaseInterval) {
         int y = getCoordinateY();
@@ -63,6 +63,10 @@ public class Vehicle {
 
     public int getVehicleFuel() {
         return fuel;
+    }
+
+    public int getVehicleSize() {
+        return vehicleSize;
     }
 
     public void printVehicleFuel() {

@@ -10,9 +10,6 @@ public class Game {
         boardSize.put("x", boardCoordinates[0]);
         boardSize.put("y", boardCoordinates[1]);
     }
-    public void printDestinationPoint() {
-        System.out.println("Twój punkt docelowy: " + Arrays.toString(destinationPoint));
-    }
 
     private int getBoardSize(String axisType) {
         return boardSize.get(axisType);
@@ -22,16 +19,6 @@ public class Game {
         System.out.println("Game board size");
         System.out.println("x = " + this.getBoardSize("x"));
         System.out.println("y = " + this.getBoardSize("y"));
-    }
-
-    private void setNewDestinationPoint() {
-        Random rand = new Random();
-        destinationPoint[0] = rand.nextInt(11);
-        destinationPoint[1] = rand.nextInt(11);
-
-        System.out.println("your new destination point: ");
-        System.out.println("x= " + destinationPoint[0]);
-        System.out.println("y= " + destinationPoint[1]);
     }
 
     private boolean checkDestinationReached() {
@@ -51,7 +38,7 @@ public class Game {
         return (gameVehicle.getVehicleFuel() <= 0);
     }
 
-    private boolean checkBoardBoarderReached(String moveCommand) {
+    private boolean checkBoardBoarderReached(String moveCommand, int moveInterval) {
         HashMap<String, Integer> vehicleLocation = gameVehicle.getLocation();
         boolean destinationReached = false;
         boolean incorrectCommand = false;
@@ -60,16 +47,16 @@ public class Game {
 
         switch (moveCommand) {
             case "UP":
-                yLocation = yLocation - 1;
+                yLocation = yLocation - moveInterval;
                 break;
             case "DOWN":
-                yLocation = yLocation + 1;
+                yLocation = yLocation + moveInterval;
                 break;
             case "LEFT":
-                xLocation = xLocation - 1;
+                xLocation = xLocation - moveInterval;
                 break;
             case "RIGHT":
-                xLocation = xLocation + 1;
+                xLocation = xLocation + moveInterval;
                 break;
             default:
                 System.out.println("Incorrect command. Enter new command.");
@@ -96,6 +83,20 @@ public class Game {
         return destinationReached;
     }
 
+    private void setNewDestinationPoint() {
+        Random rand = new Random();
+        destinationPoint[0] = rand.nextInt(11);
+        destinationPoint[1] = rand.nextInt(11);
+
+        System.out.println("your new destination point: ");
+        System.out.println("x= " + destinationPoint[0]);
+        System.out.println("y= " + destinationPoint[1]);
+    }
+
+    public void printDestinationPoint() {
+        System.out.println("Twój punkt docelowy: " + Arrays.toString(destinationPoint));
+    }
+
     public void setGameVehicle(Vehicle chosenVehicle) {
         gameVehicle = chosenVehicle;
     }
@@ -112,7 +113,7 @@ public class Game {
                 System.out.println("Wprowadz komende " + Arrays.toString(availableCommands));
                 Scanner dataEntry = new Scanner(System.in);
                 String moveCommand = dataEntry.nextLine();
-                if (checkBoardBoarderReached(moveCommand) == false) {
+                if (checkBoardBoarderReached(moveCommand, gameVehicle.getVehicleSize()) == false) {
                     gameVehicle.moveVehicle(moveCommand);
                     gameVehicle.printVehicleFuel();
                 } else {
@@ -125,8 +126,6 @@ public class Game {
                     System.out.println("Fuel off game over");
                     System.exit(0);
                 }
-
-
             }
             System.out.println("Your destination point was reached!!");
             System.out.println("WINNER");
@@ -138,7 +137,5 @@ public class Game {
         }
 
         System.exit(0);
-
     }
-
 }
