@@ -56,9 +56,11 @@ public class Vehicle {
     }
 
     public void printCurrentLocation() {
+        System.out.println("");
         System.out.println("You current location: ");
         System.out.println("x = " + getCoordinateX());
         System.out.println("y = " + getCoordinateY());
+        System.out.println("");
     }
 
     public int getVehicleFuel() {
@@ -70,17 +72,22 @@ public class Vehicle {
     }
 
     public void printVehicleFuel() {
+        System.out.println("");
         System.out.println("Current fuel: " + fuel + " liters");
+        System.out.println("");
     }
 
     public void increaseVehicleFuel() {
+        System.out.println("");
         System.out.println("Fuel award: " + fuelAward);
         fuel = fuel + fuelAward;
         System.out.println("Vehicle fuel: " + fuel);
+        System.out.println("");
     }
 
 
     public void moveVehicle(String moveCommand) {
+        System.out.println("");
         switch (moveCommand) {
             case "UP":
                 System.out.println("Command correct. Vehicle moved");
@@ -103,6 +110,7 @@ public class Vehicle {
         }
 
         decreaseFuel();
+        System.out.println("");
     }
 
 

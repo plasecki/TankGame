@@ -4,7 +4,7 @@ public class Game {
     private Map<String, Integer> boardSize = new HashMap();
     private int[] destinationPoint = new int[2];
     private Vehicle gameVehicle;
-    private final String[] availableCommands = {"UP", "DOWN", "LEFT", "RIGHT"};
+    private static final String[] COMMANDS = {"UP", "DOWN", "LEFT", "RIGHT"};
 
     public Game(int[] boardCoordinates) {
         boardSize.put("x", boardCoordinates[0]);
@@ -41,7 +41,6 @@ public class Game {
     private boolean checkBoardBoarderReached(String moveCommand, int moveInterval) {
         HashMap<String, Integer> vehicleLocation = gameVehicle.getLocation();
         boolean destinationReached = false;
-        boolean incorrectCommand = false;
         int xLocation = vehicleLocation.get("x");
         int yLocation = vehicleLocation.get("y");
 
@@ -60,8 +59,7 @@ public class Game {
                 break;
             default:
                 System.out.println("Incorrect command. Enter new command.");
-                incorrectCommand = true;
-                return incorrectCommand;
+                return true;
         }
 
         if (xLocation > this.getBoardSize("x")) {
@@ -87,14 +85,12 @@ public class Game {
         Random rand = new Random();
         destinationPoint[0] = rand.nextInt(11);
         destinationPoint[1] = rand.nextInt(11);
-
-        System.out.println("your new destination point: ");
-        System.out.println("x= " + destinationPoint[0]);
-        System.out.println("y= " + destinationPoint[1]);
     }
 
     public void printDestinationPoint() {
-        System.out.println("Twój punkt docelowy: " + Arrays.toString(destinationPoint));
+        System.out.println("Your destination point: ");
+        System.out.println("x= " + destinationPoint[0]);
+        System.out.println("y= " + destinationPoint[1]);
     }
 
     public void setGameVehicle(Vehicle chosenVehicle) {
@@ -110,7 +106,7 @@ public class Game {
 
             while (checkDestinationReached() == false) {
                 gameVehicle.printCurrentLocation();
-                System.out.println("Wprowadz komende " + Arrays.toString(availableCommands));
+                System.out.println("Wprowadz komende " + Arrays.toString(COMMANDS));
                 Scanner dataEntry = new Scanner(System.in);
                 String moveCommand = dataEntry.nextLine();
                 if (checkBoardBoarderReached(moveCommand, gameVehicle.getVehicleSize()) == false) {

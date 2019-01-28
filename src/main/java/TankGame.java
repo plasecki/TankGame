@@ -28,6 +28,7 @@ public class TankGame {
         System.out.println("1. Car - Wybierz A");
         System.out.println("2. Tank - Wybierz B");
         String carChoice = dataEntry.nextLine();
+        System.out.println(" ");
 
         loop: while (carChoice != "A" &&  carChoice != "B") {
 
