@@ -95,6 +95,7 @@ public class Game {
 
     public void setGameVehicle(Vehicle chosenVehicle) {
         gameVehicle = chosenVehicle;
+        gameVehicle.printVehicleDetails();
     }
 
     public void runGame() {

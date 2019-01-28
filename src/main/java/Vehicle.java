@@ -2,7 +2,7 @@
 import java.util.HashMap;
 
 
-public class Vehicle {
+public abstract class Vehicle {
     private HashMap<String, Integer> location = new HashMap();
     private int fuel;
     private int fuelDecreaseInterval;
@@ -17,14 +17,6 @@ public class Vehicle {
         fuelAward = award;
         fuelDecreaseInterval = initialFuelInterval;
         vehicleSize = size;
-    }
-
-    private int getCoordinateX() {
-        return location.get("x");
-    };
-
-    private int getCoordinateY() {
-        return location.get("y");
     }
 
     private void increaseCoordinateX(int increaseInterval) {
@@ -50,6 +42,16 @@ public class Vehicle {
     private void decreaseFuel() {
         fuel = fuel - fuelDecreaseInterval;
     }
+
+    protected int getCoordinateX() {
+        return location.get("x");
+    };
+
+    protected int getCoordinateY() {
+        return location.get("y");
+    }
+
+    public abstract void printVehicleDetails();
 
     public HashMap<String, Integer> getLocation() {
         return location;
